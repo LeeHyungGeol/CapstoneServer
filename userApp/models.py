@@ -2,24 +2,25 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 # Create your models here.
 
-class LocationInformation(models.Model):
+
+class LocationWasteInformation(models.Model):
     idx = models.AutoField(primary_key=True)
     dong = models.CharField(max_length=45, blank=True, null=True)
     discharge_day = models.CharField(max_length=45, blank=True, null=True)
-    house_start = models.IntegerField(blank=True, null=True)
-    house_end = models.IntegerField(blank=True, null=True)
-    food_start = models.IntegerField(blank=True, null=True)
-    food_end = models.IntegerField(blank=True, null=True)
-    house_method = models.CharField(max_length=100, blank=True, null=True)
-    food_method = models.CharField(max_length=100, blank=True, null=True)
-    recycle_method = models.CharField(max_length=100, blank=True, null=True)
+    house_start = models.CharField(max_length=45, blank=True, null=True)
+    house_end = models.CharField(max_length=45, blank=True, null=True)
+    food_start = models.CharField(max_length=45, blank=True, null=True)
+    food_end = models.CharField(max_length=45, blank=True, null=True)
+    house_method = models.CharField(max_length=255, blank=True, null=True)
+    food_method = models.CharField(max_length=255, blank=True, null=True)
+    recycle_method = models.CharField(max_length=255, blank=True, null=True)
     house_day = models.CharField(max_length=45, blank=True, null=True)
     food_day = models.CharField(max_length=45, blank=True, null=True)
     recycle_day = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
-        managed = False
-        db_table = 'location_information'
+        # managed = False
+        db_table = 'location_waste_information'
 
 
 class UserManager(BaseUserManager):
@@ -45,9 +46,10 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
 class User(AbstractBaseUser):
 
-    location_idx = models.ForeignKey(LocationInformation, models.DO_NOTHING, db_column='location_idx', blank=True, null=True)
+    location_idx = models.ForeignKey(LocationWasteInformation, models.DO_NOTHING, db_column='location_idx', blank=True, null=True)
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(blank=True, null=True)
     idx = models.AutoField(primary_key=True)

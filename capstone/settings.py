@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
     'userApp',
+    'locationApp',
 ]
 
 
@@ -48,9 +49,9 @@ AUTH_USER_MODEL = 'userApp.User'
 
 REST_FRAMEWORK = {
 
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'knox.auth.TokenAuthentication',
-    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'knox.auth.TokenAuthentication',
+    ),
 
     'DEFAULT_RENDERER_CLASSES': (
 

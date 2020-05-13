@@ -1,0 +1,5 @@
+name: capstone
+channels:
+  - defaults
+prefix: C:\Users\LeeHyungGeol\Anaconda3\envs\capstone
+

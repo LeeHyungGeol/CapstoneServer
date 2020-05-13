@@ -39,12 +39,12 @@ class AuthPermission(models.Model):
 
 class Community(models.Model):
     idx = models.AutoField(primary_key=True)
-    user_idx = models.ForeignKey('User', models.DO_NOTHING, db_column='user_idx', blank=True, null=True)
     title = models.CharField(max_length=45, blank=True, null=True)
     content = models.CharField(max_length=500, blank=True, null=True)
     date = models.DateTimeField(blank=True, null=True)
     share_complete = models.IntegerField(blank=True, null=True)
-    share_uncomplete = models.IntegerField(blank=True, null=True)
+    image = models.CharField(max_length=100)
+    user_idx = models.ForeignKey('User', models.DO_NOTHING, db_column='user_idx', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -107,6 +107,18 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+class ItemdetectionHistory(models.Model):
+    idx = models.AutoField(primary_key=True)
+    user_idx = models.ForeignKey('User', models.DO_NOTHING, db_column='user_idx', blank=True, null=True)
+    cg_idx = models.ForeignKey('WasteCategoryS', models.DO_NOTHING, db_column='cg_idx', blank=True, null=True)
+    accuracy = models.FloatField(blank=True, null=True)
+    image = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'itemDetection_history'
+
+
 class KnoxAuthtoken(models.Model):
     digest = models.CharField(primary_key=True, max_length=128)
     salt = models.CharField(unique=True, max_length=16)
@@ -120,24 +132,24 @@ class KnoxAuthtoken(models.Model):
         db_table = 'knox_authtoken'
 
 
-class LocationInformation(models.Model):
+class LocationWasteInformation(models.Model):
     idx = models.AutoField(primary_key=True)
     dong = models.CharField(max_length=45, blank=True, null=True)
     discharge_day = models.CharField(max_length=45, blank=True, null=True)
-    house_start = models.IntegerField(blank=True, null=True)
-    house_end = models.IntegerField(blank=True, null=True)
-    food_start = models.IntegerField(blank=True, null=True)
-    food_end = models.IntegerField(blank=True, null=True)
-    house_method = models.CharField(max_length=100, blank=True, null=True)
-    food_method = models.CharField(max_length=100, blank=True, null=True)
-    recycle_method = models.CharField(max_length=100, blank=True, null=True)
+    house_start = models.CharField(max_length=45, blank=True, null=True)
+    house_end = models.CharField(max_length=45, blank=True, null=True)
+    food_start = models.CharField(max_length=45, blank=True, null=True)
+    food_end = models.CharField(max_length=45, blank=True, null=True)
+    house_method = models.CharField(max_length=255, blank=True, null=True)
+    food_method = models.CharField(max_length=255, blank=True, null=True)
+    recycle_method = models.CharField(max_length=255, blank=True, null=True)
     house_day = models.CharField(max_length=45, blank=True, null=True)
     food_day = models.CharField(max_length=45, blank=True, null=True)
     recycle_day = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'location_information'
+        db_table = 'location_waste_information'
 
 
 class MessageReceiver(models.Model):
@@ -187,6 +199,7 @@ class User(models.Model):
     is_admin = models.IntegerField()
     is_active = models.IntegerField()
     date_joined = models.DateTimeField()
+    location_idx = models.ForeignKey(LocationWasteInformation, models.DO_NOTHING, db_column='location_idx', blank=True, null=True)
 
     class Meta:
         managed = False
