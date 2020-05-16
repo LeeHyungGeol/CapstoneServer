@@ -23,9 +23,17 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    location_idx = serializers.CharField(source='location_idx.dong')
     class Meta:
         model = User
         fields = ("user_id", "user_nm", 'location_idx', 'point')
+
+
+class UpdateUserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("user_id", "user_nm")
+
 
 
 class UserShareCompleteCheckSerializer(serializers.ModelSerializer):

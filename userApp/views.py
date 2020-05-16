@@ -51,7 +51,7 @@ class LoginAPI(generics.GenericAPIView):
         user = serializer.validated_data['user']
         login(request, user)
         return Response({
-            "user": UserSerializer(user,
+            "user_id": UserSerializer(user,
                                    context=self.get_serializer_context()).data['user_id'],
             "token": AuthToken.objects.create(user)[1]
         })
@@ -94,10 +94,12 @@ class UserProfileView(APIView):
         })
 
     def put(self, request, format=None):
-        serializer = UserProfileSerializer(request.user, data=request.data)
+        serializer = UpdateUserProfileSerializer(request.user, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response({
+                "update_my_page" : serializer.data
+            })
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request):
@@ -126,7 +128,7 @@ class UserShareCompleteCheckView(APIView):
         permissions.IsAuthenticated,
     ]
 
-    def get(self, request, idx, format=None):
+    def get(self, request, idx, format=None):  #community 테이블의 번호를 넘겨줘야 함
         user = request.user
         community_information = Community.objects.get(idx = idx, user_idx = user)
         print(community_information.share_complete)

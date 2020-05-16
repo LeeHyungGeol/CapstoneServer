@@ -19,12 +19,15 @@ class UpdateLocationView(APIView):
     def post(self, request, format=None):
         user = request.user
         location_dong = request.data.get('dong')
-        information = Community.objects.get(dong = location_dong)
-        user.location_idx = information
+        print(location_dong)
+        user.location_idx = LocationWasteInformation.objects.get(dong = location_dong)
+        print(user.location_idx)
         user.save()
 
-        return Response(status=status.HTTP_201_CREATED)
-
+        # return Response(status=status.HTTP_201_CREATED)
+        return Response({
+            "msg" : "지역 설정 완료!"
+        })
 
 class LocationWasteInformationView(APIView):
     """
