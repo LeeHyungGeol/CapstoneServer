@@ -37,6 +37,16 @@ class AuthPermission(models.Model):
         unique_together = (('content_type', 'codename'),)
 
 
+class CategoryRegulation(models.Model):
+    idx = models.AutoField(primary_key=True)
+    cg_name = models.CharField(max_length=100, blank=True, null=True)
+    cg_small_idx = models.ForeignKey('WasteCategoryS', models.DO_NOTHING, db_column='cg_small_idx', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'category_regulation'
+
+
 class Community(models.Model):
     idx = models.AutoField(primary_key=True)
     title = models.CharField(max_length=45, blank=True, null=True)
@@ -107,16 +117,38 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class ItemdetectionHistory(models.Model):
+class ItemdetectionMHistory(models.Model):
+    idx = models.AutoField(primary_key=True)
+    user_idx = models.ForeignKey('User', models.DO_NOTHING, db_column='user_idx', blank=True, null=True)
+    cg_idx = models.ForeignKey('WasteCategoryM', models.DO_NOTHING, db_column='cg_idx', blank=True, null=True)
+    accuracy = models.FloatField(blank=True, null=True)
+    image = models.CharField(max_length=255, blank=True, null=True)
+    date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'itemDetection_m_history'
+
+
+class ItemdetectionSHistory(models.Model):
     idx = models.AutoField(primary_key=True)
     user_idx = models.ForeignKey('User', models.DO_NOTHING, db_column='user_idx', blank=True, null=True)
     cg_idx = models.ForeignKey('WasteCategoryS', models.DO_NOTHING, db_column='cg_idx', blank=True, null=True)
     accuracy = models.FloatField(blank=True, null=True)
     image = models.CharField(max_length=255, blank=True, null=True)
+    date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'itemDetection_history'
+        db_table = 'itemDetection_s_history'
+
+
+class ItemdetectionappUpload(models.Model):
+    image = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'itemdetectionApp_upload'
 
 
 class KnoxAuthtoken(models.Model):
@@ -182,7 +214,7 @@ class PointHistory(models.Model):
     user_idx = models.ForeignKey('User', models.DO_NOTHING, db_column='user_idx', blank=True, null=True)
     date = models.DateTimeField(blank=True, null=True)
     value = models.IntegerField(blank=True, null=True)
-    point_description = models.CharField(max_length=45, blank=True, null=True)
+    point_description = models.ForeignKey('WasteCategoryS', models.DO_NOTHING, db_column='point_description', blank=True, null=True)
 
     class Meta:
         managed = False

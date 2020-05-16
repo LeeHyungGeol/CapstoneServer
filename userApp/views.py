@@ -77,11 +77,12 @@ class UserAPI(generics.RetrieveAPIView):
 
         return self.request.user
 
+
 class UserProfileView(APIView):
     """
     Retrieve, update or delete a snippet instance.
     """
-    authentication_classes = [TokenAuthentication, ]
+
     permission_classes = [
         permissions.IsAuthenticated,
     ]
@@ -103,3 +104,50 @@ class UserProfileView(APIView):
 
         request.user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserShareListView(APIView):
+
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    def get(self, request, format=None):
+        user = request.user
+        community_information = Community.objects.filter(user_idx = user)
+        serializer = UserShareCompleteCheckSerializer(community_information, many=True)
+        return Response({
+           "community": serializer.data
+        })
+
+
+class UserShareCompleteCheckView(APIView):
+
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+    def get(self, request, idx, format=None):
+        user = request.user
+        community_information = Community.objects.get(idx = idx, user_idx = user)
+        print(community_information.share_complete)
+        if community_information.share_complete == 0:
+            community_information.share_complete = 1
+            print(community_information.share_complete)
+            community_information.save()
+            serializer = UserShareCompleteCheckSerializer(community_information)
+            msg = "나눔 완료!"
+            return Response({
+                    "msg": msg,
+                    "community": serializer.data
+                })
+        else:
+            community_information.share_complete = 0
+            print(community_information.share_complete)
+            community_information.save()
+            serializer = UserShareCompleteCheckSerializer(community_information)
+            msg = "나눔 미완료!"
+            return Response({
+                    "msg": msg,
+                    "community": serializer.data
+                })
+

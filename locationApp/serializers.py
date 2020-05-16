@@ -8,4 +8,3 @@ class LocationWasteInformationSerializer(serializers.ModelSerializer):
         fields = ("dong", "discharge_day", 'house_start', 'house_end', 'food_start', 'food_end'
                   , 'house_method', 'food_method', 'recycle_method', 'house_day', 'food_day', 'recycle_day')
 
-

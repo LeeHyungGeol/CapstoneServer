@@ -26,3 +26,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("user_id", "user_nm", 'location_idx', 'point')
+
+
+class UserShareCompleteCheckSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Community
+        fields = ("idx", "title", "content", 'date', 'share_complete'
+                  , 'user_idx')
