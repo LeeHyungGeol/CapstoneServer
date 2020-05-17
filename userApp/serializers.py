@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from CommunityApp.models import Community
 from django.contrib.auth import authenticate
 
 # 회원가입

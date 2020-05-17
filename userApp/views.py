@@ -8,7 +8,6 @@ from .serializers import *
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from knox.auth import TokenAuthentication
 from django.contrib.auth import login
-from django.http import Http404
 from rest_framework.views import APIView
 
 # Create your views here.

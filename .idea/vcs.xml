@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/MeasureApp/ar_markers" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/darkflow" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/locationApp/darkflow" vcs="Git" />
   </component>
