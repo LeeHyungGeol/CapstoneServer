@@ -53,7 +53,7 @@ class TextVoiceDischargeTipsView(APIView):
         for idx in Idx:
             dischargeTipsList.append(DischargeTips.objects.get(category_m_idx = idx))
         serializer = DischargeTipsSerializer(dischargeTipsList, many = True)
-        print(serializer)
+        
         return Response({
             "textVoiceDischargeTips": serializer.data
         })
