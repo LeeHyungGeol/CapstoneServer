@@ -3,9 +3,10 @@ from dischargeTipsApp.models import *
 
 
 class DischargeTipsSerializer(serializers.ModelSerializer):
+    category_m_name = serializers.CharField(source='category_m_idx.cg_name')
     class Meta:
         model = DischargeTips
-        fields = ("idx", "category_m_idx", 'content', 'item_corresponding', 'item_discorresponding')
+        fields = ("idx", "category_m_name", 'content', 'item_corresponding', 'item_discorresponding')
 
 
 class WasteCategoryLSerializer(serializers.ModelSerializer):
