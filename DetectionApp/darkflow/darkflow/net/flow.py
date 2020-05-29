@@ -67,7 +67,8 @@ def train(self):
         self.say(form.format(step_now, loss, loss_mva))
         profile += [(loss, loss_mva)]
 
-        ckpt = (i+1) % (self.FLAGS.save // self.FLAGS.batch)
+        #ckpt = (i+1) % (self.FLAGS.save // self.FLAGS.batch)
+        ckpt = (i+1) % 2585
         args = [step_now, profile]
         if not ckpt: _save_ckpt(self, *args)
 

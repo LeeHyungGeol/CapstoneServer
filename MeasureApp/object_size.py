@@ -16,6 +16,7 @@ from ar_markers import detect_markers
 import os
 from uuid import uuid4
 from django.utils import timezone
+from .models import MeasureHistory
 
 def midpoint(ptA, ptB):
 	return ((ptA[0] + ptB[0]) * 0.5, (ptA[1] + ptB[1]) * 0.5)
@@ -23,7 +24,7 @@ def midpoint(ptA, ptB):
 
 
 
-def length_measure(url) :
+def measure_length(url, user) :
 	# construct the argument parse and parse the arguments
 	# ap = argparse.ArgumentParser()
 	# ap.add_argument("-i", "--image", required=True,
@@ -33,12 +34,13 @@ def length_measure(url) :
 	# args = vars(ap.parse_args())
 
 	# load the image, convert it to grayscale, and blur it slightly
+	flag = True
 	img_url = url
 	print("image url :", img_url)
 	image = cv2.imread('./'+img_url)
+
 	markers = detect_markers(image)
 	marker_width = 15
-
 
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 	gray = cv2.GaussianBlur(gray, (7, 7), 0)
@@ -49,13 +51,9 @@ def length_measure(url) :
 
 	# perform edge detection, then perform a dilation + erosion to
 	# close gaps in between object edges
-	edged = cv2.Canny(gray, 30, 100)
-	# cv2.imshow("canny", edged)
-
+	edged = cv2.Canny(gray, 50, 100)
 	edged = cv2.dilate(edged, None, iterations=1)
-	# cv2.imshow("dilate", edged)
 	edged = cv2.erode(edged, None, iterations=1)
-	# cv2.imshow("erode", edged)
 
 	# find contours in the edge map
 	cnts = cv2.findContours(edged.copy(), cv2.RETR_EXTERNAL,
@@ -73,6 +71,8 @@ def length_measure(url) :
 		cnts.insert(0, markers[0].contours)
 	except Exception:
 		print("marker detection fail")
+		flag = False
+		return flag
 		# sys.exit()
 
 	cnts = tuple(cnts)
@@ -81,8 +81,8 @@ def length_measure(url) :
 	pixelsPerMetric = None
 
 	# loop over the contours individually
-	url_list = list()
-	for c in cnts:
+	result_list = list()
+	for idx,c in enumerate(cnts):
 
 		# if the contour is not sufficiently large, ignore it
 		if cv2.contourArea(c) < 100:
@@ -138,34 +138,39 @@ def length_measure(url) :
 		# (in this case, inches)
 		if pixelsPerMetric is None:
 			pixelsPerMetric = dB / marker_width
-			# pixelsPerMetric = dB / args["width"]
+
 
 		# compute the size of the object
 		dimA = dA / pixelsPerMetric
 		dimB = dB / pixelsPerMetric
-		"width: {:.1f}cm".format(dimB)
+
 		# draw the object sizes on the image
-		cv2.putText(orig, "width: {:.1f}cm".format(dimB),
-			(int(tltrX - 15), int(tltrY - 10)), cv2.FONT_HERSHEY_SIMPLEX,
-			0.65, (0,255,255), 2)
-		cv2.putText(orig, "height: {:.1f}cm".format(dimA),
-			(int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,
-			0.65, (0,255,255), 2)
-
-
-
 		# show the output image
-		if dimA >= 1 and dimB >= 1:
+		if (float(format(dimA)) > 30 and float(format(dimB)) > 30):
+			# draw the object sizes on the image
+			cv2.putText(orig, "width: {:.1f}cm".format(dimB),
+						(0, 100), cv2.FONT_HERSHEY_SIMPLEX,
+						1.2, (255, 0, 0), 3)
+			cv2.putText(orig, "height: {:.1f}cm".format(dimA),
+						(0, 150), cv2.FONT_HERSHEY_SIMPLEX,
+						1.2, (255, 0, 0), 3)
 
-			# save_path = 'C:/devtool/git/CapstoneServer/media/' + date_upload_measure(img_url)
+			if idx == 0:
+				continue
+
 			save_path =  date_upload_measure()
 			print('save path:' + save_path)
-			cv2.imwrite('media/' + save_path, orig)
-			url_list.append(save_path)
+			cv2.imwrite('./media/' + save_path, orig)
+
+			img_measured = MeasureHistory.objects.create(user_idx = user, image = save_path, width = dimB, height = dimA )
+			img_measured.save()
+			img_measured.msg = '성공'
+			img_measured.code = 100
+			result_list.append(img_measured)
 
 			# cv2.imshow("Image", orig)
 			# cv2.waitKey(0)
-	return url_list
+	return result_list
 
 
 def date_upload_measure():

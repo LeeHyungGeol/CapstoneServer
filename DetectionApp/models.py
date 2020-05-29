@@ -13,7 +13,7 @@ def date_upload_clean(instance, filename):
     extension = os.path.splitext(filename)[-1].lower()
     # 결합 후 return
     return '/'.join([
-        'detection',
+        'clean',
         ymd_path,
         uuid_name + extension,
         ])
@@ -27,7 +27,7 @@ def date_upload_detection(instance, filename):
     extension = os.path.splitext(filename)[-1].lower()
     # 결합 후 return
     return '/'.join([
-        'clean_detection',
+        'detection',
         ymd_path,
         uuid_name + extension,
         ])
@@ -104,7 +104,7 @@ class PointHistory(models.Model):
     user_idx = models.ForeignKey(User, models.DO_NOTHING, db_column='user_idx', blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
     value = models.IntegerField(blank=True, null=True)
-    point_description = models.ForeignKey('WasteCategoryS', models.DO_NOTHING, db_column='point_description', blank=True, null=True)
+    point_description = models.ForeignKey(WasteCategoryS, models.DO_NOTHING, db_column='point_description', blank=True, null=True)
 
     class Meta:
         managed = False

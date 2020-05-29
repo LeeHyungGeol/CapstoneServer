@@ -64,7 +64,7 @@ class Community(models.Model):
 class DischargeTips(models.Model):
     idx = models.AutoField(primary_key=True)
     category_m_idx = models.ForeignKey('WasteCategoryM', models.DO_NOTHING, db_column='category_m_idx', blank=True, null=True)
-    content = models.CharField(max_length=500, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
     item_corresponding = models.CharField(max_length=45, blank=True, null=True)
     item_discorresponding = models.CharField(max_length=45, blank=True, null=True)
 
@@ -117,19 +117,6 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class ItemdetectionMHistory(models.Model):
-    idx = models.AutoField(primary_key=True)
-    user_idx = models.ForeignKey('User', models.DO_NOTHING, db_column='user_idx', blank=True, null=True)
-    cg_idx = models.ForeignKey('WasteCategoryM', models.DO_NOTHING, db_column='cg_idx', blank=True, null=True)
-    accuracy = models.FloatField(blank=True, null=True)
-    image = models.CharField(max_length=255, blank=True, null=True)
-    date = models.DateTimeField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'itemDetection_m_history'
-
-
 class ItemdetectionSHistory(models.Model):
     idx = models.AutoField(primary_key=True)
     user_idx = models.ForeignKey('User', models.DO_NOTHING, db_column='user_idx', blank=True, null=True)
@@ -149,6 +136,14 @@ class ItemdetectionappUpload(models.Model):
     class Meta:
         managed = False
         db_table = 'itemdetectionApp_upload'
+
+
+class ItemdetectionappUploadClean(models.Model):
+    image = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'itemdetectionApp_upload_clean'
 
 
 class KnoxAuthtoken(models.Model):
@@ -182,6 +177,29 @@ class LocationWasteInformation(models.Model):
     class Meta:
         managed = False
         db_table = 'location_waste_information'
+
+
+class MeasureHistory(models.Model):
+    idx = models.AutoField(primary_key=True)
+    user_idx = models.ForeignKey('User', models.DO_NOTHING, db_column='user_idx', blank=True, null=True)
+    image = models.CharField(max_length=100, blank=True, null=True)
+    width = models.FloatField(blank=True, null=True)
+    height = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'measure_history'
+
+
+class MeasureUpload(models.Model):
+    image = models.CharField(max_length=100)
+    marker_width = models.IntegerField()
+    width = models.IntegerField(blank=True, null=True)
+    height = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'measure_upload'
 
 
 class MessageReceiver(models.Model):

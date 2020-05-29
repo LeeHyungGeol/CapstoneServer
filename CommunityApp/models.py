@@ -26,7 +26,7 @@ class Community(models.Model):
     content = models.CharField(max_length=500, blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
     share_complete = models.IntegerField(blank=True, null=True)
-    image = models.ImageField(upload_to=date_upload_community)
+    image = models.ImageField(upload_to=date_upload_community, null=True, blank=True)
     user_idx = models.ForeignKey(User, models.DO_NOTHING, db_column='user_idx', blank=True, null=True)
 
     def delete(self, *args, **kargs):

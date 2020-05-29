@@ -1,4 +1,5 @@
 from django.db import models
+from userApp.models import User
 import os
 from uuid import uuid4
 from django.utils import timezone
@@ -19,10 +20,21 @@ def date_upload_measure(instance, filename):
         uuid_name + extension,
         ])
 
-
-class Upload(models.Model):
-    image = models.ImageField(upload_to=date_upload_measure)
+class MeasureHistory(models.Model):
+    idx = models.AutoField(primary_key=True)
+    user_idx = models.ForeignKey(User, models.DO_NOTHING, db_column='user_idx', blank=True, null=True)
+    image = models.CharField(max_length=100, blank=True, null=True)
+    width = models.FloatField(blank=True, null=True)
+    height = models.FloatField(blank=True, null=True)
+    date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         managed = False
-        db_table = 'itemdetectionApp_upload'
+        db_table = 'measure_history'
+
+
+class Upload(models.Model):
+    image = models.ImageField(upload_to=date_upload_measure)
+    class Meta:
+        managed = False
+        db_table = 'measure_upload'
