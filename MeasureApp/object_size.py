@@ -17,6 +17,7 @@ import os
 from uuid import uuid4
 from django.utils import timezone
 from .models import MeasureHistory
+from .serializers import MeasureHistorySerializer
 
 def midpoint(ptA, ptB):
 	return ((ptA[0] + ptB[0]) * 0.5, (ptA[1] + ptB[1]) * 0.5)
@@ -145,35 +146,36 @@ def measure_length(url, user) :
 		dimB = dB / pixelsPerMetric
 
 		# draw the object sizes on the image
+
+
+
+
 		# show the output image
 		if (float(format(dimA)) > 30 and float(format(dimB)) > 30):
-			# draw the object sizes on the image
-			cv2.putText(orig, "width: {:.1f}cm".format(dimB),
-						(0, 100), cv2.FONT_HERSHEY_SIMPLEX,
-						1.2, (255, 0, 0), 3)
-			cv2.putText(orig, "height: {:.1f}cm".format(dimA),
-						(0, 150), cv2.FONT_HERSHEY_SIMPLEX,
-						1.2, (255, 0, 0), 3)
-
 			if idx == 0:
 				continue
 
-			save_path =  date_upload_measure()
+			cv2.putText(orig, "width: {:.1f}cm".format(dimB),
+						(int(tltrX - 15), int(tltrY - 10)), cv2.FONT_HERSHEY_SIMPLEX,
+						1.2, (0, 255, 0), 2)
+			cv2.putText(orig, "height: {:.1f}cm".format(dimA),
+						(int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,
+						1.2, (0, 255, 0), 2)
+
+			save_path = date_upload_measured()
 			print('save path:' + save_path)
 			cv2.imwrite('./media/' + save_path, orig)
 
 			img_measured = MeasureHistory.objects.create(user_idx = user, image = save_path, width = dimB, height = dimA )
 			img_measured.save()
 			img_measured.msg = '성공'
-			img_measured.code = 100
+			img_measured.code =100
 			result_list.append(img_measured)
 
-			# cv2.imshow("Image", orig)
-			# cv2.waitKey(0)
 	return result_list
 
 
-def date_upload_measure():
+def date_upload_measured():
     # upload_to="%Y/%m/%d" 처럼 날짜로 세분화
     ymd_path = timezone.now().strftime('%Y/%m/%d')
     # 길이 32 인 uuid 값

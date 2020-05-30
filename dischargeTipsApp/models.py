@@ -6,9 +6,9 @@ from django.db import models
 class DischargeTips(models.Model):
     idx = models.AutoField(primary_key=True)
     category_m_idx = models.ForeignKey('WasteCategoryM', models.DO_NOTHING, db_column='category_m_idx', blank=True, null=True)
-    content = models.CharField(max_length=500, blank=True, null=True)
-    item_corresponding = models.CharField(max_length=45, blank=True, null=True)
-    item_discorresponding = models.CharField(max_length=45, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    item_corresponding = models.TextField(blank=True, null=True)
+    item_discorresponding = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False

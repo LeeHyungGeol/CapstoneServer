@@ -27,7 +27,7 @@ class UpdateLocationView(APIView):
         # return Response(status=status.HTTP_201_CREATED)
         return Response({
             "msg" : "지역 설정 완료!"
-        })
+        }, status=status.HTTP_201_CREATED)
 
 class LocationWasteInformationView(APIView):
     """
@@ -41,9 +41,7 @@ class LocationWasteInformationView(APIView):
         user = request.user
         if user.location_idx is None:
             msg = "주소 관련 정보가 없습니다. 주소를 설정해주세요."
-            return Response({
-                "msg" : msg
-            })
+            return Response(status= status.HTTP_204_NO_CONTENT)
 
         else:
             serializer = LocationWasteInformationSerializer(user.location_idx)

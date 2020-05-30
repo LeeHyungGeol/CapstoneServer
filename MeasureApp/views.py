@@ -44,13 +44,13 @@ class MeasureAPIView(APIView):
             if result_list is False:
                 msg = "마커 인식에 실패했습니다."
                 return Response({
-                    "clean_detection": {"code": 101,
+                    "measure": {"code": 101,
                                         "msg" : msg}
                 })
             elif len(result_list) == 0:
                 msg = "길이 측정에 실패했습니다."
                 return Response({
-                    "clean_detection": {"code": 102,
+                    "measure": {"code": 102,
                                         "msg" : msg}
                 })
             else :

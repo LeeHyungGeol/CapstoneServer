@@ -83,6 +83,7 @@ class Upload_Clean(models.Model):
     image = models.ImageField(upload_to=date_upload_clean)
 
     class Meta:
+        managed = False
         db_table = 'itemdetectionApp_upload_clean'
 
 

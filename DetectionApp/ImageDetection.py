@@ -12,9 +12,9 @@ def getItemName(img_url, params):
     if params == 'clean':
         print('clean')
         options = {
-            'model' : './DetectionApp/darkflow/cfg/yolo-clean.cfg',
+            'model' : './DetectionApp/darkflow/cfg/yolo-clean2.cfg',
             'labels' : './labels-clean.txt',
-            'load' : 18262,
+            'load' : 53562,
             'threshold' : 0.3,
             'batch' : 1,
             # 'gpu' : 0.7

@@ -65,8 +65,8 @@ class DischargeTips(models.Model):
     idx = models.AutoField(primary_key=True)
     category_m_idx = models.ForeignKey('WasteCategoryM', models.DO_NOTHING, db_column='category_m_idx', blank=True, null=True)
     content = models.TextField(blank=True, null=True)
-    item_corresponding = models.CharField(max_length=45, blank=True, null=True)
-    item_discorresponding = models.CharField(max_length=45, blank=True, null=True)
+    item_corresponding = models.TextField(blank=True, null=True)
+    item_discorresponding = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -162,7 +162,7 @@ class KnoxAuthtoken(models.Model):
 class LocationWasteInformation(models.Model):
     idx = models.AutoField(primary_key=True)
     dong = models.CharField(max_length=45, blank=True, null=True)
-    discharge_day = models.CharField(max_length=45, blank=True, null=True)
+    administrative_area = models.CharField(db_column='Administrative area', max_length=100, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     house_start = models.CharField(max_length=45, blank=True, null=True)
     house_end = models.CharField(max_length=45, blank=True, null=True)
     food_start = models.CharField(max_length=45, blank=True, null=True)
@@ -173,6 +173,8 @@ class LocationWasteInformation(models.Model):
     house_day = models.CharField(max_length=45, blank=True, null=True)
     food_day = models.CharField(max_length=45, blank=True, null=True)
     recycle_day = models.CharField(max_length=45, blank=True, null=True)
+    recycle_start = models.CharField(max_length=45, blank=True, null=True)
+    recycle_end = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -185,6 +187,7 @@ class MeasureHistory(models.Model):
     image = models.CharField(max_length=100, blank=True, null=True)
     width = models.FloatField(blank=True, null=True)
     height = models.FloatField(blank=True, null=True)
+    date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -193,9 +196,6 @@ class MeasureHistory(models.Model):
 
 class MeasureUpload(models.Model):
     image = models.CharField(max_length=100)
-    marker_width = models.IntegerField()
-    width = models.IntegerField(blank=True, null=True)
-    height = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

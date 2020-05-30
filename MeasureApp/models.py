@@ -20,10 +20,12 @@ def date_upload_measure(instance, filename):
         uuid_name + extension,
         ])
 
+
+
 class MeasureHistory(models.Model):
     idx = models.AutoField(primary_key=True)
     user_idx = models.ForeignKey(User, models.DO_NOTHING, db_column='user_idx', blank=True, null=True)
-    image = models.CharField(max_length=100, blank=True, null=True)
+    image = models.ImageField()
     width = models.FloatField(blank=True, null=True)
     height = models.FloatField(blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)

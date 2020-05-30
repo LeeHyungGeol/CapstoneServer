@@ -9,7 +9,7 @@ from django.utils import timezone
 class LocationWasteInformation(models.Model):
     idx = models.AutoField(primary_key=True)
     dong = models.CharField(max_length=45, blank=True, null=True)
-    discharge_day = models.CharField(max_length=45, blank=True, null=True)
+    administrative_area = models.CharField(db_column='Administrative area', max_length=100, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     house_start = models.CharField(max_length=45, blank=True, null=True)
     house_end = models.CharField(max_length=45, blank=True, null=True)
     food_start = models.CharField(max_length=45, blank=True, null=True)
@@ -20,6 +20,8 @@ class LocationWasteInformation(models.Model):
     house_day = models.CharField(max_length=45, blank=True, null=True)
     food_day = models.CharField(max_length=45, blank=True, null=True)
     recycle_day = models.CharField(max_length=45, blank=True, null=True)
+    recycle_start = models.CharField(max_length=45, blank=True, null=True)
+    recycle_end = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False

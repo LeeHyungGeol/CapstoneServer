@@ -56,7 +56,7 @@ class TextVoiceDischargeTipsView(APIView):
         
         return Response({
             "textVoiceDischargeTips": serializer.data
-        })
+        },status=status.HTTP_201_CREATED)
 
 
 class ImageDischargeTipsView(APIView):
@@ -72,7 +72,7 @@ class ImageDischargeTipsView(APIView):
         serializer = DischargeTipsSerializer(dischargeTips)
         return Response({
             "imageDischargeTips" : serializer.data
-        })
+        },status=status.HTTP_201_CREATED)
 
 
 
