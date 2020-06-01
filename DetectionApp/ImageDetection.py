@@ -24,7 +24,7 @@ def getItemName(img_url, params):
         options = {
             'model' : './DetectionApp/darkflow/cfg/yolo-cap3.cfg',
             'labels': './labels.txt',
-            'load' : 120216,
+            'load' : 158991,
             'threshold' : 0.3,
             'batch': 1,
             # 'gpu' : 0.7

@@ -31,7 +31,9 @@ class PointHistorySerializer(serializers.ModelSerializer):
 
     msg = serializers.CharField(max_length=45, required=False)
     code = serializers.IntegerField( required=False)
+    user_name = serializers.CharField(source= 'user_idx.user_id', required=False)
+    description = serializers.CharField(source= 'point_description.cg_name', required=False)
 
     class Meta:
         model = PointHistory
-        fields =['idx','date', 'value', 'user_idx', 'point_description', 'msg', 'code']
+        fields =['idx','date', 'value', 'user_idx', 'point_description', 'msg', 'code', 'user_name', 'description']

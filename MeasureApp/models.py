@@ -3,6 +3,7 @@ from userApp.models import User
 import os
 from uuid import uuid4
 from django.utils import timezone
+from DetectionApp.models import WasteCategoryS
 
 # Create your models here.
 
@@ -40,3 +41,15 @@ class Upload(models.Model):
     class Meta:
         managed = False
         db_table = 'measure_upload'
+
+class RegulationFee(models.Model):
+    idx = models.AutoField(primary_key=True)
+    fee_flag = models.CharField(max_length=45, blank=True, null=True)
+    condition_value = models.FloatField(blank=True, null=True)
+    cg_idx = models.ForeignKey(WasteCategoryS, models.DO_NOTHING, db_column='cg_idx', blank=True, null=True)
+    over_fee = models.CharField(max_length=45, blank=True, null=True)
+    down_fee = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'regulation_fee'

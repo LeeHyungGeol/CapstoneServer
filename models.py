@@ -239,6 +239,19 @@ class PointHistory(models.Model):
         db_table = 'point_history'
 
 
+class RegulationFee(models.Model):
+    idx = models.AutoField(primary_key=True)
+    fee_flag = models.CharField(max_length=45, blank=True, null=True)
+    condition_value = models.FloatField(blank=True, null=True)
+    cg_idx = models.ForeignKey('WasteCategoryS', models.DO_NOTHING, db_column='cg_idx', blank=True, null=True)
+    over_fee = models.CharField(max_length=45, blank=True, null=True)
+    down_fee = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'regulation_fee'
+
+
 class User(models.Model):
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(blank=True, null=True)

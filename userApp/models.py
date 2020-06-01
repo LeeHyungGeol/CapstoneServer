@@ -6,6 +6,11 @@ from uuid import uuid4
 from django.utils import timezone
 
 # Create your models here.
+
+
+
+
+
 class LocationWasteInformation(models.Model):
     idx = models.AutoField(primary_key=True)
     dong = models.CharField(max_length=45, blank=True, null=True)

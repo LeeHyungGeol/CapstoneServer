@@ -151,16 +151,16 @@ def measure_length(url, user) :
 
 
 		# show the output image
-		if (float(format(dimA)) > 30 and float(format(dimB)) > 30):
+		if (float(format(dimA)) > 25 or float(format(dimB)) > 25):
 			if idx == 0:
 				continue
 
 			cv2.putText(orig, "width: {:.1f}cm".format(dimB),
-						(int(tltrX - 15), int(tltrY - 10)), cv2.FONT_HERSHEY_SIMPLEX,
-						1.2, (0, 255, 0), 2)
+						(0, 100), cv2.FONT_HERSHEY_SIMPLEX,
+						1.2, (255, 0, 0), 2)
 			cv2.putText(orig, "height: {:.1f}cm".format(dimA),
-						(int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_SIMPLEX,
-						1.2, (0, 255, 0), 2)
+						(0, 150), cv2.FONT_HERSHEY_SIMPLEX,
+						1.2, (255, 0, 0), 2)
 
 			save_path = date_upload_measured()
 			print('save path:' + save_path)

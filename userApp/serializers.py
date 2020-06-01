@@ -24,10 +24,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    location_idx = serializers.CharField(source='location_idx.dong')
+    location_name = serializers.CharField(source='location_idx.dong')
     class Meta:
         model = User
-        fields = ("user_id", "user_nm", 'location_idx', 'point')
+        fields = ("user_id", "user_nm", 'location_name', 'point')
 
 
 class UpdateUserProfileSerializer(serializers.ModelSerializer):
