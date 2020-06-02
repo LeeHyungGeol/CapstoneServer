@@ -44,7 +44,12 @@ class LocationWasteInformationView(APIView):
             return Response(status= status.HTTP_204_NO_CONTENT)
 
         else:
-            serializer = LocationWasteInformationSerializer(user.location_idx)
+            try:
+                serializer = LocationWasteInformationSerializer(user.location_idx)
+            except LocationWasteInformation.DoesNotExist:
+
+                return Response(status=status.HTTP_204_NO_CONTENT)
+
             return Response({
                 "location_waste_information": serializer.data
             })

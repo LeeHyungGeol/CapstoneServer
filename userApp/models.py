@@ -59,7 +59,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
 
-    location_idx = models.ForeignKey(LocationWasteInformation, models.DO_NOTHING, db_column='location_idx', blank=True, null=True)
+    location_idx = models.ForeignKey(LocationWasteInformation, models.DO_NOTHING, db_column='location_idx', blank=True, null=True, default=1)
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField(blank=True, null=True)
     idx = models.AutoField(primary_key=True)
@@ -69,7 +69,7 @@ class User(AbstractBaseUser):
 
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    date_joined = models.DateTimeField(auto_now_add=True)
+    date_joined = models.DateTimeField(auto_now_add=True )
 
     object = UserManager()
     USERNAME_FIELD = 'user_id'
