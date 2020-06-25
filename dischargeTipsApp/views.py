@@ -35,26 +35,35 @@ class TextVoiceDischargeTipsView(APIView):
             print("Hannanum")
             ha = Hannanum()
             Nouns = ha.nouns(searchSentence)
-        print(Nouns)
+        print('nouns: ', Nouns)
         Idx = []
         temp = []
+        small_list = list()
         for word in Nouns:
             smallIdx = WasteCategoryS.objects.filter(cg_name__contains = word)
-            if not smallIdx:
+            for val in smallIdx:
+                small_list.append(val)
+
+            if len( smallIdx) == 0:
+                print('len 0')
                 middleIdx = WasteCategoryM.objects.filter(cg_name__contains=word)
                 for ob in middleIdx:
                     Idx.append(ob.idx)
                 continue
+
             for ob in smallIdx:
                 Idx.append(ob.cg_middle_idx.idx)
-        Idx = list(set(Idx))
+
         print(Idx)
         dischargeTipsList = []
         for idx in Idx:
             dischargeTipsList.append(DischargeTips.objects.get(category_m_idx = idx))
         serializer = DischargeTipsSerializer(dischargeTipsList, many = True)
+
+        waste_serializer = WasteCategorySSerializer(small_list, many=True)
         
         return Response({
+            "matching_name" : waste_serializer.data,
             "textVoiceDischargeTips": serializer.data
         },status=status.HTTP_201_CREATED)
 

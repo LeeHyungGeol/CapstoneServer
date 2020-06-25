@@ -2,33 +2,11 @@ import cv2
 import numpy as np
 from operator import itemgetter
 
-# def detection(img_url):
-#     classes = ['AirConditioner_Vertical', 'AirConditionerOutdoorUnit', 'Bed', 'Bicycle', 'TeaBag', 'Cabinet', 'Chair',
-#                'CoffeePot',
-#                'Desk', 'FishThorn', 'GlassLid', 'HairDryer', 'IcePack', 'InsulationBag', 'Microwave', 'OriginHanger',
-#                'Piano', 'PortableClimbingCushion',
-#                'Stroller', 'TableTennis', 'Tire', 'TV', 'Umbrella', 'VacuumCleaner', 'Ventilator', 'Wardrobe',
-#                'WheelChair', 'doenjang', 'PeachSeed',
-#                'Toothbrush', 'MonamiBallpointPen', 'FluorescentLamp', 'IncandescentLightBulb', 'bags', 'TvTable',
-#                'Aircleaner', 'Gyozatable',
-#                'KimchiRefrigerator', 'Fireplace', 'WallClock', 'Laptop', 'Iron', 'Door', 'Mixer', 'Refrigerator',
-#                'Toilet', 'Copier',
-#                'chiffonier', 'Fan', 'Washer', 'Sofa', 'Shoe']
-#
-#     print ('label len : ', len(classes))
-#     net = cv2.dnn.readNet("./cfg/yolo-obj_1000.weights", "./cfg/yolo-obj.cfg")
-#
-#     layer_names = net.getLayerNames()
-#     output_layers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
-#     colors = np.random.uniform(0, 255, size=(len(classes), 3))
-#
-#     img = cv2.imread("test.jpg")
-#     height, width, channels = img.shape
 
 def load_yolo(params):
     if params == 'detection':
         print(params)
-        net = cv2.dnn.readNet("cfg/yolov3-416_10000.weights", "cfg/yolov3-416.cfg")
+        net = cv2.dnn.readNet("cfg/yolov3-416_18000.weights", "cfg/yolov3-416.cfg")
         classes = []
         with open("./cfg/obj.names", "r") as f:
             classes = [line.strip() for line in f.readlines()]
@@ -36,7 +14,7 @@ def load_yolo(params):
         output_layers = [layers_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
         colors = np.random.uniform(0, 255, size=(len(classes), 3))
     else :
-        net = cv2.dnn.readNet("cfg/yolov3-416-clean_2000.weights", "cfg/yolov3-416-clean.cfg")
+        net = cv2.dnn.readNet("cfg/yolov3-416-clean_5000.weights", "cfg/yolov3-416-clean.cfg")
         classes = []
         with open("./cfg/obj-clean.names", "r") as f:
             classes = [line.strip() for line in f.readlines()]
@@ -71,10 +49,11 @@ def get_box_dimensions(outputs, height, width):
             scores = detect[5:]
             class_id = np.argmax(scores)
             conf = scores[class_id]
-            if conf > 0.1:
+            if conf > 0.01:
 
                 confs.append(float(conf))
                 class_ids.append(class_id)
+    print(confs, class_ids)
     return confs, class_ids
 
 

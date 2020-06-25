@@ -6,8 +6,8 @@ from .serializers import *
 from rest_framework import status
 from django.http import Http404
 from rest_framework import permissions
-
-
+from DetectionApp.detect import image_detect
+from DetectionApp.models import *
 
 
 # Create your views here.
@@ -47,10 +47,31 @@ class CommunityListAPIView(APIView):
 
     def post(self, request):
         user = request.user
+
         community = Community.objects.create(user_idx = user, share_complete = 0)
         serializer = CommunityDetailSerializer(community, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            img_url = serializer.data['image']
+            results = image_detect('detection', img_url)
+
+            if len(results) == 0:
+                print('품목 인식 실패')
+            else :
+                s_list = list()
+                for result in results:
+                    print(result)
+                    label = result['label']
+                    accuracy = result['confidence']
+                    try:
+                        waste_s = WasteCategoryS.objects.get(label_name=label)
+                        history = ItemdetectionSHistory.objects.create(user_idx=request.user, cg_idx=waste_s,
+                                                                       accuracy=accuracy, image=img_url)
+                        history.save()
+
+                    except WasteCategoryS.DoesNotExist:
+                        print("제공하지 않는 품목")
+
             return Response({
                 "communitiy" : serializer.data
             }, status=status.HTTP_201_CREATED)
@@ -91,3 +112,4 @@ class CommunityDetailAPIView(APIView):
         community = self.get_object(idx)
         community.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+

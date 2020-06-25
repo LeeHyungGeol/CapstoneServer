@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+os.environ['PATH'] += 'C:/Program Files (x86)/Graphviz2.38/bin/'
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'CommunityApp',
     'MessageApp',
     'MeasureApp',
+    'django_extensions',
 ]
 
 

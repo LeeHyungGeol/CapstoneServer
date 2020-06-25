@@ -2,6 +2,13 @@ from rest_framework import serializers
 from .models import *
 
 
+class ItemDetectionHistorySerializer(serializers.ModelSerializer):
+    cg_name = serializers.CharField(required=False, source= 'cg_idx.cg_name')
+    # cnt = serializers.IntegerField(required=False)
+    class Meta:
+        model = ItemdetectionSHistory
+        fields = ('cg_idx', 'cg_name')
+
 class UploadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Upload

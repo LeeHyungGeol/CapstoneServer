@@ -7,4 +7,5 @@ urlpatterns = [
     path('message/detail/<int:message_idx>/', views.MessageDetailAPIView.as_view()),
 
 
+
 ]

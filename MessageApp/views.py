@@ -101,4 +101,9 @@ class MessageDetailAPIView(APIView):
         serializer = MessageSenderSerializer(message)
         return Response({"message": serializer.data})
 
+    def delete(self, request, message_idx):
 
+        msg = MessageReceiver.objects.get(idx = message_idx)
+        msg.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
