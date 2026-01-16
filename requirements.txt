@@ -23,7 +23,7 @@ cycler==0.10.0
 Cython==0.29.14
 cytoolz==0.10.1
 darkflow==1.0.0
-dask==2.17.0
+dask==2021.10.0
 declxml==0.9.1
 decorator==4.4.2
 defusedxml==0.6.0
